@@ -5,6 +5,8 @@ import cors from "cors";
 import { Server as SocketIOServer } from "socket.io";
 import connectToDatabase from "./config/db";
 import { APP_ORIGIN, NODE_ENV, PORT } from "./constants/env";
+import { OK } from "./constants/http";
+import errorHandler from "./middlewares/errorHandler";
 
 // Initializing express server instance
 const app = express();
@@ -31,11 +33,14 @@ const io = new SocketIOServer(httpServer, {
 
 // Server health check
 app.get("/", (req, res) => {
-  return res.status(200).json({
+  return res.status(OK).json({
     status: "healthy",
     message: "HTTP server is running",
   });
 });
+
+// Global Error Handler
+app.use(errorHandler);
 
 // Socket.IO Server logic
 // socket.on("connection", (socket) => { ... });: This event fires every time a new client successfully connects to your Socket.IO server.
