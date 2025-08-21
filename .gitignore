@@ -29,6 +29,8 @@ dist
 dist-ssr
 *.local
 
+NEXTAUTH_INTEGRATION.md
+
 # OS and IDE files
 .DS_Store
 .idea/

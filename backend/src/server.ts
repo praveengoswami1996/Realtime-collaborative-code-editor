@@ -2,17 +2,20 @@ import "dotenv/config";
 import express from "express";
 import http from "http";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { Server as SocketIOServer } from "socket.io";
 import connectToDatabase from "./config/db";
 import { APP_ORIGIN, NODE_ENV, PORT } from "./constants/env";
 import { OK } from "./constants/http";
 import errorHandler from "./middlewares/errorHandler";
+import authRoutes from "./routes/auth.route";
 
 // Initializing express server instance
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(cors({
     origin: APP_ORIGIN,
     credentials: true
@@ -38,6 +41,9 @@ app.get("/", (req, res) => {
     message: "HTTP server is running",
   });
 });
+
+// Public Routes
+app.use("/api/auth", authRoutes);
 
 // Global Error Handler
 app.use(errorHandler);

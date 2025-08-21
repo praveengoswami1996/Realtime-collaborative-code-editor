@@ -9,32 +9,34 @@ export interface IUser extends Document {
   updatedAt: Date;
   __v: string;
   comparePassword: (val: string) => Promise<Boolean>;
-} 
+  omitPassword: () => void;
+}
 
-const UserSchema: Schema = new Schema({
-  name: {
-    type: String,
-    required: [true, 'Please add a name'],
-    trim: true,
+const UserSchema: Schema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Please add a name"],
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: [true, "Please add an email"],
+      unique: true,
+      lowercase: true,
+      match: [
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+        "Please add a valid email",
+      ],
+    },
+    password: {
+      type: String,
+      required: [true, "Please add a password"],
+      minlength: [6, "Password must be at least 6 characters long"],
+    },
   },
-  email: {
-    type: String,
-    required: [true, 'Please add an email'],
-    unique: true,
-    lowercase: true,
-    match: [
-      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-      "Please add a valid email",
-    ],
-  },
-  password: {
-    type: String,
-    required: [true, 'Please add a password'],
-    minlength: [6, 'Password must be at least 6 characters long'],
-    select: false, // Don't return the password by default
-  },
-}, { timestamps: true });
-
+  { timestamps: true }
+);
 
 // Mongoose Middleware (Pre-save hook for password hashing)
 UserSchema.pre<IUser>("save", async function (next) {
@@ -43,14 +45,22 @@ UserSchema.pre<IUser>("save", async function (next) {
     return next();
   }
   const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt); 
+  this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
 // Creating Mongoose method for password comparison
-UserSchema.methods.comparePassword = async function (password: string): Promise<Boolean> {
-    return bcrypt.compare(password, this.password);
+UserSchema.methods.comparePassword = async function (
+  password: string
+): Promise<Boolean> {
+  return bcrypt.compare(password, this.password);
+};
+
+UserSchema.methods.omitPassword = function () {
+  const user = this.toObject();
+  delete user.password;
+  return user;
 }
 
-const User = model<IUser>('User', UserSchema);
-export default User;
+const UserModel = model<IUser>("User", UserSchema);
+export default UserModel;
