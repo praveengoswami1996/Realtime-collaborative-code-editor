@@ -26,14 +26,14 @@ const errorHandler: ErrorRequestHandler = async (error, req, res, next) => {
     console.log(`Error path : ${req.path}`, error);
 
     if (error instanceof z.ZodError) {
-        handleZodError(res, error);
+        return handleZodError(res, error);
     }
 
     if (error instanceof AppError) {
-        handleAppError(res, error);
+        return handleAppError(res, error);
     }
 
-    res.status(INTERNAL_SERVER_ERROR).send("Internal Server Error");
+    return res.status(INTERNAL_SERVER_ERROR).send("Internal Server Error");
 }
 
 export default errorHandler;

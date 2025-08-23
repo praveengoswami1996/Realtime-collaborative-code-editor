@@ -9,6 +9,8 @@ import { APP_ORIGIN, NODE_ENV, PORT } from "./constants/env";
 import { OK } from "./constants/http";
 import errorHandler from "./middlewares/errorHandler";
 import authRoutes from "./routes/auth.route";
+import projectRoutes from "./routes/project.route";
+import { authenticate } from "./middlewares/authenticate";
 
 // Initializing express server instance
 const app = express();
@@ -44,6 +46,9 @@ app.get("/", (req, res) => {
 
 // Public Routes
 app.use("/api/auth", authRoutes);
+
+// Private Routes
+app.use("/api/projects", authenticate, projectRoutes);
 
 // Global Error Handler
 app.use(errorHandler);
