@@ -1,6 +1,6 @@
 import API from "@/config/apiClient";
 import { useAuth } from "@/hooks/useAuth";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 interface CreateProjectFormData {
@@ -8,6 +8,7 @@ interface CreateProjectFormData {
 }
 
 const useCreateProject = () => {
+  const queryClient = useQueryClient();;
   const { accessToken } = useAuth();
   const mutation = useMutation({
     mutationFn: async (data: CreateProjectFormData) => {
@@ -20,6 +21,7 @@ const useCreateProject = () => {
     },
     onSuccess: (data) => {
       toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
     onError: (error) => {
       toast.error(error.message);

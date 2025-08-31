@@ -11,6 +11,5 @@ export const createProject = async (data: CreateProjectParams, ownerId: string) 
         documents: [],
         collaborators: [ownerId] // Owner of the project will be the default collaborator
     })
-
     return { project };
 }

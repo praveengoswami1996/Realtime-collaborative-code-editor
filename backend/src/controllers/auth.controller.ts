@@ -49,12 +49,12 @@ export const loginHandler = catchErrors(
 export const logoutHandler = catchErrors(
     async (req: Request, res: Response) => {
         // Clear the JWT cookie
-        res.clearCookie('accessToken', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            path: '/'
-        });
+        // res.clearCookie('accessToken', {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === 'production',
+        //     sameSite: 'lax',
+        //     path: '/'
+        // });
 
         return res.status(OK).json({
             message: "Logout successful"

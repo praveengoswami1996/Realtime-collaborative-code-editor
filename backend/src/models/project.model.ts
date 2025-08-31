@@ -2,6 +2,8 @@ import mongoose, { Schema, Document, Types } from "mongoose";
 
 export interface IProject extends Document {
   name: string;
+  description: string;
+  status: string;
   owner: Types.ObjectId; // Reference to the User who owns this project
   documents: Types.ObjectId[]; // Array of references to Document models within this project
   collaborators: Types.ObjectId[]; // Array of references to User models who can collaborate on this project
