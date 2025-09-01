@@ -65,7 +65,7 @@ export default function CreateProjectForm() {
         <Button
           type="submit"
           disabled={!form.watch("name") || isPending}
-          className="h-12 px-8 text-white font-medium bg-emerald-900  transition-all duration-300 hover:scale-105 cursor-pointer"
+          className="h-12 px-8 text-white font-medium bg-rose-700 transition-all duration-300 hover:scale-105 cursor-pointer"
         >
           {!isPending ? (
             <>

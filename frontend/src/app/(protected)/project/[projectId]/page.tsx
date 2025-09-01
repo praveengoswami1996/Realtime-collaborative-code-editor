@@ -1,8 +1,8 @@
-import React from 'react'
+import ProjectDetails from "@/components/project/ProjectDetails";
 
-const ProjectDetailsPage = () => {
+function ProjectDetailsPage () {
   return (
-    <div>ProjectDetailsPage</div>
+    <ProjectDetails />
   )
 }
 

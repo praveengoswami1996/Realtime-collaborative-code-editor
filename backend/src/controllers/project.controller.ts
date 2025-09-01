@@ -73,7 +73,13 @@ export const getProjectDetailsHandler = catchErrors(async function (
   const project = await ProjectModel.findById(projectId).populate(
     "collaborators",
     "_id name email"
-  ).populate("documents");
+  ).populate("owner", "_id name email").populate({
+    path: 'documents',
+    populate: {
+      path: 'owner',
+      select: '_id name email'
+    }
+  });
   appAssert(project, NOT_FOUND, "Project not found");
 
   // Step 3. Check if the authenticated user is a valid user (either Owner or Collaborator)
@@ -176,7 +182,7 @@ export const createDocumentHandler = catchErrors(
     appAssert(isOwner || isCollaborator, FORBIDDEN, "Forbidden: You don't have permission to add a document to this project");
 
     // Step 5: Add the document
-    const document = await DocumentModel.create({
+    const newDocument = await DocumentModel.create({
       name: request.name,
       language: request.language,
       code: "",
@@ -186,10 +192,14 @@ export const createDocumentHandler = catchErrors(
       history: []
     })
 
-    // Step 6: Return the response
+    // Step 6: Add the document reference to the project and save
+    project.documents.push(newDocument._id as mongoose.Types.ObjectId);
+    await project.save();
+
+    // Step 7: Return the response
     res.status(CREATED).json({
       message: "Document created successfully",
-      document
+      document: newDocument
     })
   }
 );

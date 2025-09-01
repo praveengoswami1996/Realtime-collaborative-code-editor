@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,7 +17,6 @@ import {
   MoreVertical,
   Zap,
 } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
 import CreateProjectForm from "@/components/forms/create-project-form";
 import useGetProjects from "@/hooks/queries/projects/useGetProjects";
 import { useRouter } from "next/navigation";
@@ -40,12 +37,6 @@ export default function DashboardPage() {
 
   const router = useRouter();
 
-  const [user] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    avatar: "/diverse-user-avatars.png",
-  });
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -53,6 +44,18 @@ export default function DashboardPage() {
       day: "numeric",
     });
   };
+
+  if(isLoading) {
+    return (
+      <div>Please wait....</div>
+    )
+  }
+
+  if(isError) {
+    return (
+      <div>Error fetching data.</div>
+    )
+  }
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
