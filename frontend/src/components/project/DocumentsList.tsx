@@ -1,8 +1,10 @@
+"use client";
 import dayjs from "dayjs";
 import { Clock, ExternalLink, FileText, Plus, User } from "lucide-react";
 import React from "react";
 import InfoItem from "../common/InfoItem";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 type Owner = {
     _id: string;
@@ -28,6 +30,7 @@ interface DocumentListProps {
 }
 
 const DocumentsList: React.FC<DocumentListProps> = ({ documents }) => {
+  const router = useRouter();
 
   const getLanguageColor = (language: string) => {
     const colors: { [key: string]: string } = {
@@ -111,10 +114,14 @@ const DocumentsList: React.FC<DocumentListProps> = ({ documents }) => {
                 </div>
               </div>
 
-              <button className="flex items-center space-x-2 px-4 py-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100 cursor-pointer">
+              <Button
+                variant={"ghost"}
+                onClick={() => router.push(`/editor/${document._id}`)}
+                className="flex items-center space-x-2 px-4 py-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
+              >
                 <ExternalLink className="w-4 h-4" />
                 <span className="font-medium">Open</span>
-              </button>
+              </Button>
             </div>
           ))}
         </div>

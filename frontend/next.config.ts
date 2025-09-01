@@ -8,9 +8,14 @@ const nextConfig: NextConfig = {
       {
         source: "/project",
         destination: "/dashboard",
-        permanent: false
-      }
-    ]
+        permanent: false,
+      },
+      {
+        source: "/editor",
+        destination: "/dashboard",
+        permanent: false,
+      },
+    ];
   },
 };
 
