@@ -11,6 +11,7 @@ import errorHandler from "./middlewares/errorHandler";
 import authRoutes from "./routes/auth.route";
 import projectRoutes from "./routes/project.route";
 import { authenticate } from "./middlewares/authenticate";
+import documentRoutes from "./routes/document.route";
 
 // Initializing express server instance
 const app = express();
@@ -49,6 +50,7 @@ app.use("/api/auth", authRoutes);
 
 // Private Routes
 app.use("/api/projects", authenticate, projectRoutes);
+app.use("/api/documents", authenticate, documentRoutes);
 
 // Global Error Handler
 app.use(errorHandler);

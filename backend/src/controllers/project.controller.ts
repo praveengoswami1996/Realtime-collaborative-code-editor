@@ -90,7 +90,7 @@ export const getProjectDetailsHandler = catchErrors(async function (
   appAssert(
     isOwner || isCollaborator,
     FORBIDDEN,
-    "You do not have access to this project"
+    "Forbidden: You do not have access to this project"
   );
 
   // Step 4: Send the response

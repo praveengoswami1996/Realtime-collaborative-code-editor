@@ -3,7 +3,7 @@ import { addCollaboratorHandler, createDocumentHandler, createProjectHandler, ge
 
 const projectRoutes = Router();
 
-// Prefix: /api/project
+// Prefix: /api/projects
 projectRoutes.post("/", createProjectHandler); // Create a new project
 projectRoutes.get("/", getProjectsHandler); // Get all projects
 projectRoutes.get("/:projectId", getProjectDetailsHandler); // Get project details by projectId

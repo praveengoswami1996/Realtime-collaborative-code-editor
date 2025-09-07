@@ -1,6 +1,8 @@
 /* This model represents a single code file, its content, language, and version history. */
 
 import mongoose, { Schema, Document, Types } from "mongoose";
+import { IUser } from "./user.model";
+import { IProject } from "./project.model";
 
 // TypeScript Interface for Document History Entry
 export interface IDocumentHistoryEntry {
@@ -20,6 +22,14 @@ export interface IDocument extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+// Document interface for the populated version
+export interface IPopulatedDocument extends Omit<IDocument, 'owner' | 'project' | 'collaborators'> {
+  owner: IUser; // Was ObjectId, now is IUser
+  project: IProject; // Was ObjectId, now is IProject
+  collaborators: IUser[]; // Was ObjectId[], now is IUser[]
+}
+
 
 // 3. Mongoose Schema Definition
 const DocumentSchema: Schema = new Schema(
