@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft, LogOut, User, Folder } from "lucide-react";
+import { ArrowLeft, Folder } from "lucide-react";
 
 interface EditorHeaderProps {
   documentName: string;
@@ -34,18 +34,6 @@ const EditorHeader: React.FC<EditorHeaderProps> = ({
             ID: {documentId}
           </div>
         )}
-      </div>
-
-      <div className="flex items-center space-x-4">
-        <div className="flex items-center space-x-2 text-gray-300">
-          <User size={16} />
-          <span className="text-sm">John Doe</span>
-        </div>
-
-        <button className="flex items-center space-x-2 px-3 py-1 text-gray-300 hover:text-white hover:bg-gray-700 rounded transition-colors">
-          <LogOut size={16} />
-          <span className="text-sm">Logout</span>
-        </button>
       </div>
     </header>
   );

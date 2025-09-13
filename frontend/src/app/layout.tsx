@@ -4,6 +4,7 @@ import "./globals.css";
 import ReactQueryClientProvider from "@/providers/ReactQueryClientProvider";
 import { Toaster } from "react-hot-toast";
 import AppLayout from "@/layouts/AppLayout";
+import ReduxProvider from "@/providers/ReduxProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,9 @@ export default function RootLayout({
       >
         <AppLayout>
           <ReactQueryClientProvider>
-            <main>{children}</main>
+            <ReduxProvider>
+              <main>{children}</main>
+            </ReduxProvider>
           </ReactQueryClientProvider>
         </AppLayout>
         <Toaster />

@@ -2,12 +2,12 @@ import API from "@/config/apiClient";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 
-const useGetProjects = () => {
+const useGetOwnedProjects = () => {
   const { accessToken } = useAuth();
   const query = useQuery({
-    queryKey: ["projects"],
+    queryKey: ["projects", "owned"],
     queryFn: async () => {
-      const response = await API.get("/projects", {
+      const response = await API.get("/projects/owned", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -19,4 +19,4 @@ const useGetProjects = () => {
   return query;
 }
 
-export default useGetProjects;
+export default useGetOwnedProjects;

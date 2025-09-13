@@ -17,7 +17,7 @@ export const getDocumentDetailsHandler = catchErrors(
             .populate("collaborators", "_id name email") // Document Specific Collaborator
             .populate({
                 path: "project",
-                select: "owner collaborators"
+                select: "name owner collaborators"
             })
 
         appAssert(document, NOT_FOUND, "Document not found.")

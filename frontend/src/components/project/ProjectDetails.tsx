@@ -9,14 +9,9 @@ import CollaboratorsList from "./CollaboratorsList";
 import DocumentsList from "./DocumentsList";
 
 export default function ProjectDetails() {
-  const { projectId } = useParams();
-  const { data, isLoading, isError } = useGetProjectDetailsById(
-    projectId as string
-  );
+  const { projectId } = useParams<{ projectId: string }>();
+  const { data, isLoading, isError } = useGetProjectDetailsById(projectId);
   const { project } = data || {};
-
-  console.log("ye Dekh project", project);
-
 
   if (isLoading) {
     return <div>Please wait while we make everything ready for you</div>;
@@ -28,7 +23,7 @@ export default function ProjectDetails() {
 
   return (
     <>
-      <ProjectDetailsHeader 
+      <ProjectDetailsHeader
         projectName={project.name}
         projectOwnerName={project.owner.name}
         collaboratorsCount={project.collaborators.length}
@@ -38,7 +33,7 @@ export default function ProjectDetails() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="space-y-8">
           {/* Project Info */}
-          <ProjectInfo 
+          <ProjectInfo
             projectName={project.name}
             ownerName={project.owner.name}
             createdAt={dayjs(project.createdAt).format("DD MMM YYYY")}
@@ -47,16 +42,13 @@ export default function ProjectDetails() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Collaborator Section */}
-            <CollaboratorsList 
-                collaborators={project.collaborators}
-                ownerId={project.owner._id}
+            <CollaboratorsList
+              collaborators={project.collaborators}
+              ownerId={project.owner._id}
             />
 
             {/* Document List */}
-            <DocumentsList 
-                documents={project.documents}
-            />
-
+            <DocumentsList documents={project.documents} />
           </div>
         </div>
       </div>

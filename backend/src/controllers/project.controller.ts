@@ -46,19 +46,43 @@ export const createProjectHandler = catchErrors(async function (
   });
 });
 
-export const getProjectsHandler = catchErrors(async function (
+export const getOwnedProjectsHandler = catchErrors(async function (
   req: Request,
   res: Response
 ) {
-  // Step 1: Fetch all the projects created by current logged in user
+  // Step 1: Get the authenticated userId from the request object
+  const userId = req.userId;
+
+  // Step 2: Fetch all the projects created by current logged in user
   const projects = await ProjectModel.find({
     owner: req.userId,
-  });
+  }).select('name createdAt updatedAt').sort({ updatedAt: -1 });
 
+  // Step 3: Return the response
   return res.status(OK).json({
     projects,
   });
 });
+
+export const getSharedProjectsHandler = catchErrors(
+  async function (req: Request, res: Response) {
+    // Step 1: Get the authenticated userID from the request object
+    const userId = req.userId;
+
+    // Step 2: Fetch all the projects in which user is not owner but only a collaborator
+    const projects = await ProjectModel.find({
+      collaborators: { $in: [userId] },
+      owner: { $ne: userId },
+    })
+      .select("name createdAt updatedAt")
+      .sort({ updatedAt: -1 });
+
+    // Step 3: Return the response
+    return res.status(OK).json({
+      projects
+    })
+  }
+)
 
 export const getProjectDetailsHandler = catchErrors(async function (
   req: Request,

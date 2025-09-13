@@ -1,5 +1,5 @@
 import React from "react";
-import { Save, Play, Settings } from "lucide-react";
+import { Save, Settings } from "lucide-react";
 
 interface EditorToolbarProps {
   language: string;
@@ -40,12 +40,7 @@ const EditorToolbar: React.FC<EditorToolbarProps> = ({
         <div className="flex items-center space-x-2">
           <button className="flex items-center space-x-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors text-sm">
             <Save size={14} />
-            <span>Save</span>
-          </button>
-
-          <button className="flex items-center space-x-2 px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded transition-colors text-sm">
-            <Play size={14} />
-            <span>Run</span>
+            <span>Save Version</span>
           </button>
         </div>
       </div>
